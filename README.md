@@ -11184,25 +11184,25 @@ function openStorePage(storeName) {
       </div>
     </div>
     
-    <!-- Order Confirmation Modal -->
-    <div class="confirmation-modal" id="confirmationModal">
-      <div class="confirmation-content">
-        <div class="confirmation-icon">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <h3>Order Confirmed!</h3>
-        <p id="confirmationMessage">Your order has been placed successfully.</p>
-        <div class="confirmation-actions">
-          <button class="view-receipt" onclick="viewOrderReceipt()">
-            <i class="fas fa-receipt"></i> View Receipt
-          </button>
-          <button class="close-confirmation" onclick="closeConfirmationModal()">
-            <i class="fas fa-times"></i> Close
-          </button>
-        </div>
-      </div>
+<!-- Order Confirmation Modal -->
+<div class="order-confirmation-modal" id="storeOrderConfirmationModal">
+  <div class="order-confirmation-content">
+    <div class="confirmation-icon">
+      <i class="fas fa-check-circle"></i>
     </div>
-    
+    <h3>Order Confirmed!</h3>
+    <p id="storeOrderConfirmationMessage">Your order has been placed successfully.</p>
+    <div class="confirmation-actions">
+      <button class="view-receipt" onclick="viewOrderReceipt()">
+        <i class="fas fa-receipt"></i> View Receipt
+      </button>
+      <button class="close-confirmation" onclick="closeStoreOrderConfirmation()">
+        <i class="fas fa-times"></i> Close
+      </button>
+    </div>
+  </div>
+</div>
+
     <!-- Toast Notification -->
     <div class="toast"></div>
   `;
@@ -11512,8 +11512,8 @@ function applyCoupon() {
 
 // Order Confirmation Functions
 function showOrderConfirmation(customerName, orderTotal) {
-  const confirmationModal = document.getElementById('confirmationModal');
-  const confirmationMessage = document.getElementById('confirmationMessage');
+  const confirmationModal = document.getElementById('storeOrderConfirmationModal');
+  const confirmationMessage = document.getElementById('storeOrderConfirmationMessage');
   
   if (confirmationModal && confirmationMessage) {
     confirmationMessage.textContent = `Thank you, ${customerName}! Your order of ₹${orderTotal} has been placed successfully.`;
@@ -11522,8 +11522,8 @@ function showOrderConfirmation(customerName, orderTotal) {
   }
 }
 
-function closeConfirmationModal() {
-  const confirmationModal = document.getElementById('confirmationModal');
+function closeStoreOrderConfirmation() {
+  const confirmationModal = document.getElementById('storeOrderConfirmationModal');
   if (confirmationModal) {
     confirmationModal.classList.remove('active');
     document.body.style.overflow = '';
@@ -13241,7 +13241,7 @@ function addStorePageStyles() {
 }
 
 /* Confirmation Modal Styles */
-.confirmation-modal {
+.order-confirmation-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -13257,12 +13257,12 @@ function addStorePageStyles() {
   transition: all 0.3s ease;
 }
 
-.confirmation-modal.active {
+.order-confirmation-modal.active {
   opacity: 1;
   visibility: visible;
 }
 
-.confirmation-content {
+.order-confirmation-content {
   background: #fff;
   border-radius: 16px;
   width: 90%;
@@ -13277,12 +13277,12 @@ function addStorePageStyles() {
   margin-bottom: 20px;
 }
 
-.confirmation-content h3 {
+.order-confirmation-content h3 {
   margin: 0 0 15px;
   color: #333;
 }
 
-.confirmation-content p {
+.order-confirmation-content p {
   margin: 0 0 25px;
   color: #666;
   line-height: 1.5;
@@ -23467,12 +23467,12 @@ function addProviderPageStyles() {
   margin-bottom: 20px;
 }
 
-.confirmation-content h3 {
+.booking-confirmation-content h3 {
   margin: 0 0 15px;
   color: #333;
 }
 
-.confirmation-content p {
+.booking-confirmation-content p {
   margin: 0 0 25px;
   color: #666;
   line-height: 1.5;
