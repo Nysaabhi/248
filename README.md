@@ -21714,25 +21714,25 @@ function openProviderPage(providerName) {
       </div>
     </div>
     
-    <!-- Booking Confirmation Modal -->
-<div class="booking-confirmation-modal" id="providerBookingConfirmationModal">
-  <div class="booking-confirmation-content">
-    <div class="confirmation-icon">
-      <i class="fas fa-check-circle"></i>
+    <!-- Provider Booking Confirmation Modal - Unique to Providers -->
+<div class="provider-booking-confirm" id="providerBookingConfirm">
+  <div class="provider-confirm-box">
+    <div class="provider-confirm-icon">
+      <i class="fas fa-calendar-check"></i>
     </div>
-    <h3>Booking Confirmed!</h3>
-    <p id="providerBookingConfirmationMessage">Your service booking has been confirmed successfully.</p>
-    <div class="confirmation-actions">
-      <button class="view-receipt" onclick="viewBookingReceipt()">
-        <i class="fas fa-receipt"></i> View Details
+    <h3>Service Booked!</h3>
+    <p id="providerBookingMessage"></p>
+    <div class="provider-confirm-buttons">
+      <button class="provider-view-details" onclick="viewProviderBooking()">
+        <i class="fas fa-file-alt"></i> Booking Details
       </button>
-      <button class="close-confirmation" onclick="closeProviderBookingConfirmation()">
-        <i class="fas fa-times"></i> Close
+      <button class="provider-close-confirm" onclick="closeProviderBooking()">
+        <i class="fas fa-times"></i> Done
       </button>
     </div>
   </div>
 </div>
-    
+
     <!-- Toast Notification -->
     <div class="toast"></div>
   `;
@@ -22074,7 +22074,7 @@ function initializeBookingForm() {
     }
     
     // Show confirmation
-    showBookingConfirmation(customerName, bookingTotal.toFixed(2));
+    showProviderBookingConfirmation(customerName, bookingTotal.toFixed(2));
     
     // Clear booking cart/direct booking and close form
     clearBookingCart();
@@ -22127,23 +22127,28 @@ function applyBookingCoupon() {
 }
 
 // Booking Confirmation Functions
-function showBookingConfirmation(customerName, bookingTotal) {
-  const confirmationModal = document.getElementById('providerBookingConfirmationModal');
-  const confirmationMessage = document.getElementById('providerBookingConfirmationMessage');
+function showProviderBookingConfirmation(customerName, bookingTotal) {
+  const confirmModal = document.getElementById('providerBookingConfirm');
+  const messageEl = document.getElementById('providerBookingMessage');
   
-  if (confirmationModal && confirmationMessage) {
-    confirmationMessage.textContent = `Thank you, ${customerName}! Your booking of ₹${bookingTotal} has been confirmed successfully.`;
-    confirmationModal.classList.add('active');
+  if (confirmModal && messageEl) {
+    messageEl.textContent = `${customerName}, your service booking for ₹${bookingTotal} is confirmed!`;
+    confirmModal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 }
 
-function closeProviderBookingConfirmation() {
-  const confirmationModal = document.getElementById('providerBookingConfirmationModal');
-  if (confirmationModal) {
-    confirmationModal.classList.remove('active');
+function closeProviderBooking() {
+  const confirmModal = document.getElementById('providerBookingConfirm');
+  if (confirmModal) {
+    confirmModal.classList.remove('active');
     document.body.style.overflow = '';
   }
+}
+
+function viewProviderBooking() {
+  // Implementation for viewing booking details
+  alert('Provider booking details would show here');
 }
 
 function viewBookingReceipt() {
@@ -23430,14 +23435,13 @@ function addProviderPageStyles() {
   background: #ffc400;
 }
 
-/* Booking Confirmation Modal Styles */
-.booking-confirmation-modal {
+.provider-booking-confirm {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23447,43 +23451,47 @@ function addProviderPageStyles() {
   transition: all 0.3s ease;
 }
 
-.booking-confirmation-modal.active {
+.provider-booking-confirm.active {
   opacity: 1;
   visibility: visible;
 }
 
-.booking-confirmation-content {
-  background: #fff;
+.provider-confirm-box {
+  background: #1a1a1f;
   border-radius: 16px;
   width: 90%;
   max-width: 400px;
   padding: 30px;
   text-align: center;
+  border: 1px solid #ffd700;
 }
 
-.confirmation-icon {
+.provider-confirm-icon {
   font-size: 4em;
-  color: #4caf50;
+  color: #ffd700;
   margin-bottom: 20px;
 }
 
-.booking-confirmation-content h3 {
+.provider-confirm-box h3 {
   margin: 0 0 15px;
-  color: #333;
+  color: #ffd700;
+  font-size: 1.5em;
 }
 
-.booking-confirmation-content p {
+.provider-confirm-box p {
   margin: 0 0 25px;
-  color: #666;
+  color: #fff;
   line-height: 1.5;
+  font-size: 1.1em;
 }
 
-.confirmation-actions {
+.provider-confirm-buttons {
   display: flex;
   gap: 10px;
 }
 
-.view-receipt, .close-confirmation {
+.provider-view-details,
+.provider-close-confirm {
   flex: 1;
   padding: 12px;
   border-radius: 8px;
@@ -23493,26 +23501,27 @@ function addProviderPageStyles() {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transition: all 0.3s ease;
 }
 
-.view-receipt {
-  background: #4caf50;
+.provider-view-details {
+  background: #ffd700;
+  color: #000;
+  border: none;
+}
+
+.provider-view-details:hover {
+  background: #ffc400;
+}
+
+.provider-close-confirm {
+  background: #333;
   color: #fff;
   border: none;
 }
 
-.view-receipt:hover {
-  background: #3d8b40;
-}
-
-.close-confirmation {
-  background: #f5f5f5;
-  color: #fff;
-  border: none;
-}
-
-.close-confirmation:hover {
-  background: #fff;
+.provider-close-confirm:hover {
+  background: #444;
 }
 
 /* Toast notification */
@@ -23575,7 +23584,7 @@ function addProviderPageStyles() {
   }
   
   .booking-cart-actions,
-  .confirmation-actions {
+  .provider-confirm-buttons {
     flex-direction: column;
   }
   
